@@ -1,0 +1,37 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+<body>
+    <%- include("../partials/nav.ejs") %>
+
+    <div class="details content">
+        <h2><%= blog.title %></h2>
+        <div class=="content">
+            <p><%= blog.body %></p>
+        </div>
+        <a class="delete" data-doc="<%= blog._id %>">delete</a>
+    </div>
+
+    <%- include("../partials/footer.ejs") %>
+
+    <script> //note that immediately in the script tag, our comments change from html style comments to JS style comments.
+    //also note that the following script is no longer referring to the global object of the backend Node server, but rather
+    //is referencing the document object, in particular, THIS document object, the details.ejs document (just to be clear)
+
+        const trashcan = document.querySelector('a.delete');
+
+        trashcan.addEventListener('click', (e) => {
+            const endpoint = `/blogs/${trashcan.dataset.doc}`; //note the backticks, and the reference to the string literal of the dataset (referring to the data in the anchor tag above, and also the doc, which references the doc defined again in the anchor tag above with "data-doc")
+
+            fetch(endpoint, { // fetch api goes the endpoint page, and then passes it's method, set to the 'DELETE' request sent to the server on the backend. Apparently this is an example of AJAX, which I am currently unfamiliar with..
+                method: 'DELETE'
+            })
+            .then((response) => response.json())
+            .then((data) => window.location.href = data.redirect)//console.log(data)) //the console will tell the dev on the backend that the blog was deleted, instead however, we are going to take that data, and redirect it to the window.href property, thus 'completing the circle' and redirecting the user back to the home /blogs diretory displaying the remaining blog posts
+            .catch((err) => {
+                console.log(err);
+            })
+        })
+    </script>
+</body>
+</html>

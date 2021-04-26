@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/head.ejs') %>
+<body>
+    
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="create-blog content">
+        <form action="/blogs" method="POST"> <!--When the user hits submit, the input into the text fields is submitted to /blogs-->
+            <label for="title">Blog title:</label>
+            <input type="text" id="title" name="title" required><!--name fields were added in order to help mongoose categorise them into a mongodb JSON like object-->
+            <label for="snippet">Blog snippet:</label>
+            <input type="text" id="snippet" name="snippet" required>
+            <label for="body">Blog body:</label>
+            <textarea id="body" required name="body"></textarea>
+            <button>Submit</button>
+        </form>
+    </div>
+    
+    <%- include('./partials/footer.ejs') %>
+
+</body>
+</html>
